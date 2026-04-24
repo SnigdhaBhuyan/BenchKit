@@ -2,7 +2,7 @@
 
 Professional browser-based lab tools for wet bench researchers. Built by a PhD candidate in dental biomaterials at the Faculty of Dentistry, National University of Singapore.
 
-**Live site → https://snigdhabhuyan.github.io/BenchKit/**
+**Live site → [benchkit GitHub Pages URL]**
 
 ---
 
