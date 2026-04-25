@@ -20,6 +20,7 @@
   <div class="page-shell">
     <header class="hero">
       <div>
+        <a class="back-link" href="../">← Back to BenchKit</a>
         <p class="eyebrow">Plate Design Studio</p>
         <h1>PlateMaster Well Plate Designer</h1>
         <p class="hero__lede">
@@ -45,6 +46,21 @@
     </header>
 
     <main class="layout">
+      <section class="helper-strip">
+        <article class="helper-card helper-card--info">
+          <strong>Auto placement</strong>
+          <span>Assignments are filled in row-major order using group × time point × biological replicate × technical replicate.</span>
+        </article>
+        <article class="helper-card">
+          <strong>Quick presets</strong>
+          <div class="preset-row">
+            <button class="chip-button" data-layout-preset="screening" type="button">96-Well Screen</button>
+            <button class="chip-button" data-layout-preset="pilot" type="button">24-Well Pilot</button>
+            <button class="chip-button" data-layout-preset="dense" type="button">384-Well Dense</button>
+          </div>
+        </article>
+      </section>
+
       <section class="controls card">
         <div class="section-head">
           <div>
@@ -93,7 +109,7 @@
               <span>Working Volume Per Well</span>
               <div class="field__input">
                 <input id="wellVolume" type="number" min="1" step="10" value="200">
-                <span>uL</span>
+                <span>µL</span>
               </div>
             </label>
           </section>
@@ -192,6 +208,11 @@
           <strong id="layoutStatus">Ready</strong>
           <span id="layoutStatusDetail">All requested combinations fit the plate</span>
         </article>
+        <article class="status-card">
+          <span class="status-card__label">Experimental Capacity</span>
+          <strong id="experimentalCapacity">88</strong>
+          <span id="controlStrategy">Last column reserved for controls</span>
+        </article>
       </section>
 
       <section class="workspace">
@@ -218,7 +239,7 @@
             <div class="board-meta">
               <span id="boardResearcher">Researcher: Snigdha Bhuyan</span>
               <span id="boardFormat">Format: 96-well</span>
-              <span id="boardVolume">Working volume: 200 uL</span>
+              <span id="boardVolume">Working volume: 200 µL</span>
             </div>
           </div>
 
@@ -243,11 +264,12 @@
             </div>
             <div class="plate-summary__item">
               <span>Surface Area / Well</span>
-              <strong id="surfaceArea">0 cm2</strong>
+              <strong id="surfaceArea">0 cm²</strong>
             </div>
           </div>
 
           <div class="legend" id="legend"></div>
+          <p class="board-note" id="boardNote">PNG export captures the board header, metadata, plate map, summary, and legend.</p>
         </div>
       </section>
     </main>

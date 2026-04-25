@@ -20,6 +20,7 @@
   <div class="page-shell">
     <header class="hero">
       <div class="hero__copy">
+        <a class="back-link" href="../">← Back to BenchKit</a>
         <p class="eyebrow">Hydrogel Formulation Tool</p>
         <h1>Dual-Syringe Hydrogel Batch Calculator</h1>
         <p class="hero__lede">
@@ -31,7 +32,7 @@
       <div class="hero__panel">
         <div class="hero__metric">
           <span class="hero__metric-label">Formula</span>
-          <strong>C1V1 = C2V2</strong>
+          <strong>C₁V₁ = C₂V₂</strong>
         </div>
         <div class="hero__metric">
           <span class="hero__metric-label">Updates</span>
@@ -45,6 +46,21 @@
     </header>
 
     <main class="layout">
+      <section class="helper-strip">
+        <article class="helper-card helper-card--info">
+          <strong>Lab shorthand</strong>
+          <span>`3G3F` means `3% GelMA` and `3 mg/mL Fibrinogen`.</span>
+        </article>
+        <article class="helper-card">
+          <strong>Quick presets</strong>
+          <div class="preset-row">
+            <button class="chip-button" data-preset="3g3f" type="button">3G3F Default</button>
+            <button class="chip-button" data-preset="5g3f" type="button">5G3F Build</button>
+            <button class="chip-button" data-preset="high-thrombin" type="button">High Thrombin</button>
+          </div>
+        </article>
+      </section>
+
       <section class="controls card">
         <div class="section-head">
           <div>
@@ -71,7 +87,7 @@
               <span>Syringe A Final Volume</span>
               <div class="field__input">
                 <input id="syringeAFinal" data-number-input type="number" min="0" step="50" value="1000">
-                <span>uL</span>
+                <span>µL</span>
               </div>
             </label>
 
@@ -79,7 +95,7 @@
               <span>Syringe B Final Volume</span>
               <div class="field__input">
                 <input id="syringeBFinal" data-number-input type="number" min="0" step="50" value="1000">
-                <span>uL</span>
+                <span>µL</span>
               </div>
             </label>
 
@@ -87,7 +103,7 @@
               <span>Cell Suspension Volume</span>
               <div class="field__input">
                 <input id="cellSuspension" data-number-input type="number" min="0" step="10" value="100">
-                <span>uL</span>
+                <span>µL</span>
               </div>
             </label>
           </section>
@@ -191,8 +207,13 @@
         </article>
         <article class="status-card">
           <span class="status-card__label">Total Stock Draw</span>
-          <strong id="totalStockPull">637.5 uL</strong>
+          <strong id="totalStockPull">637.5 µL</strong>
           <span>Across both syringes</span>
+        </article>
+        <article class="status-card">
+          <span class="status-card__label">Current Shorthand</span>
+          <strong id="currentShorthand">3G3F</strong>
+          <span id="currentShorthandDetail">Based on target GelMA and Fibrinogen</span>
         </article>
       </section>
 
@@ -228,27 +249,28 @@
                 <tbody>
                   <tr>
                     <td>GelMA Stock</td>
-                    <td id="outGelma">0.0 uL</td>
+                    <td id="outGelma">0.0 µL</td>
                   </tr>
                   <tr>
                     <td>Fibrinogen Stock</td>
-                    <td id="outFibrinogen">0.0 uL</td>
+                    <td id="outFibrinogen">0.0 µL</td>
                   </tr>
                   <tr>
                     <td>Cell Suspension</td>
-                    <td id="outCell">0.0 uL</td>
+                    <td id="outCell">0.0 µL</td>
                   </tr>
                   <tr class="recipe-table__topup">
                     <td>Blank Media Top-Up</td>
-                    <td id="outMediaTopUp">0.0 uL</td>
+                    <td id="outMediaTopUp">0.0 µL</td>
                   </tr>
                   <tr class="recipe-table__total">
                     <td>Total Mix Volume</td>
-                    <td id="outTotalA">0.0 uL</td>
+                    <td id="outTotalA">0.0 µL</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            <p class="recipe-note">Use this panel export for lab sheets or protocol appendices.</p>
           </article>
 
           <article class="recipe-card card" id="recipeCardB">
@@ -273,19 +295,20 @@
                 <tbody>
                   <tr>
                     <td>Thrombin Stock</td>
-                    <td id="outThrombin">0.0 uL</td>
+                    <td id="outThrombin">0.0 µL</td>
                   </tr>
                   <tr class="recipe-table__topup">
-                    <td>Buffer / CaCl2 Top-Up</td>
-                    <td id="outBufferTopUp">0.0 uL</td>
+                    <td>Buffer / CaCl₂ Top-Up</td>
+                    <td id="outBufferTopUp">0.0 µL</td>
                   </tr>
                   <tr class="recipe-table__total">
                     <td>Total Mix Volume</td>
-                    <td id="outTotalB">0.0 uL</td>
+                    <td id="outTotalB">0.0 µL</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            <p class="recipe-note">Keep Syringe B matched to the same final volume as Syringe A when pairing mixes.</p>
           </article>
         </div>
       </section>

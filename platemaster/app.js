@@ -59,6 +59,8 @@ const elements = {
   capacityDetail: document.getElementById("capacityDetail"),
   layoutStatus: document.getElementById("layoutStatus"),
   layoutStatusDetail: document.getElementById("layoutStatusDetail"),
+  experimentalCapacity: document.getElementById("experimentalCapacity"),
+  controlStrategy: document.getElementById("controlStrategy"),
   boardTitle: document.getElementById("boardTitle"),
   boardResearcher: document.getElementById("boardResearcher"),
   boardFormat: document.getElementById("boardFormat"),
@@ -77,6 +79,8 @@ const elements = {
   copySummaryBtn: document.getElementById("copySummaryBtn"),
   resetBtn: document.getElementById("resetBtn"),
 };
+
+const layoutPresetButtons = document.querySelectorAll("[data-layout-preset]");
 
 function readPositiveInteger(input, fallback) {
   const parsed = Number.parseInt(input.value, 10);
@@ -228,6 +232,54 @@ function buildLegend() {
   }
 }
 
+function applyLayoutPreset(preset) {
+  const presets = {
+    screening: {
+      plateFormat: 96,
+      wellVolume: 200,
+      bioReps: 3,
+      techReps: 2,
+      includeControls: true,
+      groups: ["Control Media", "Treatment A", "Treatment B"],
+      timepoints: ["24h", "48h"],
+    },
+    pilot: {
+      plateFormat: 24,
+      wellVolume: 500,
+      bioReps: 2,
+      techReps: 2,
+      includeControls: true,
+      groups: ["Control", "Treatment A", "Treatment B"],
+      timepoints: ["Day 1", "Day 3"],
+    },
+    dense: {
+      plateFormat: 384,
+      wellVolume: 50,
+      bioReps: 2,
+      techReps: 3,
+      includeControls: false,
+      groups: ["Vehicle", "Low Dose", "Mid Dose", "High Dose"],
+      timepoints: ["24h", "72h"],
+    },
+  };
+
+  const nextPreset = presets[preset];
+  if (!nextPreset) {
+    return;
+  }
+
+  state.plateFormat = nextPreset.plateFormat;
+  elements.wellVolume.value = nextPreset.wellVolume;
+  elements.bioReps.value = nextPreset.bioReps;
+  elements.techReps.value = nextPreset.techReps;
+  elements.includeControls.checked = nextPreset.includeControls;
+  state.groups = [...nextPreset.groups];
+  state.timepoints = [...nextPreset.timepoints];
+  setActiveFormatButton();
+  renderTags();
+  generateLayout();
+}
+
 function wellSizeForFormat(format) {
   if (format === 384) {
     return 18;
@@ -331,15 +383,19 @@ function updateDashboard(summary, config) {
   elements.availableWells.textContent = summary.totalWells.toString();
   elements.requiredDetail.textContent = `${summary.experimentalAssignments} experiment + ${summary.controlCount} control wells`;
   elements.capacityDetail.textContent = `${summary.totalWells} wells available`;
+  elements.experimentalCapacity.textContent = summary.experimentalCapacity.toString();
+  elements.controlStrategy.textContent = summary.controlCount > 0
+    ? "Last column reserved for controls"
+    : "Full plate available for experiments";
   elements.assignedWells.textContent = summary.assignedExperimental.toString();
   elements.controlWells.textContent = summary.controlCount.toString();
   elements.utilization.textContent = `${Math.min(100, Math.round((summary.usedWells / summary.totalWells) * 100))}%`;
-  elements.surfaceArea.textContent = `${config.surfaceArea} cm2`;
+  elements.surfaceArea.textContent = `${config.surfaceArea} cm²`;
 
   elements.boardTitle.textContent = elements.experimentName.value.trim() || "Untitled Plate";
   elements.boardResearcher.textContent = `Researcher: ${elements.researcherName.value.trim() || "Not specified"}`;
   elements.boardFormat.textContent = `Format: ${state.plateFormat}-well`;
-  elements.boardVolume.textContent = `Working volume: ${readPositiveNumber(elements.wellVolume, config.defaultVolume)} uL`;
+  elements.boardVolume.textContent = `Working volume: ${readPositiveNumber(elements.wellVolume, config.defaultVolume)} µL`;
 
   if (summary.overflowCount > 0) {
     elements.layoutStatus.textContent = "Overflow";
@@ -424,6 +480,7 @@ function generateLayout() {
     overflowCount,
     usedWells: assignedExperimental + controlCount,
     requiredWells: assignments.length + controlCount,
+    experimentalCapacity,
   };
 
   renderPlate(layout, config);
@@ -464,7 +521,7 @@ function exportProtocol() {
     `Experiment: ${elements.experimentName.value.trim() || "Untitled Plate"}`,
     `Researcher: ${elements.researcherName.value.trim() || "Not specified"}`,
     `Plate Format: ${state.plateFormat}-well`,
-    `Working Volume Per Well: ${readPositiveNumber(elements.wellVolume, PLATE_CONFIG[state.plateFormat].defaultVolume)} uL`,
+    `Working Volume Per Well: ${readPositiveNumber(elements.wellVolume, PLATE_CONFIG[state.plateFormat].defaultVolume)} µL`,
     "",
     "GROUPS",
     "------",
@@ -526,7 +583,7 @@ async function copySummary() {
     `Experiment: ${elements.experimentName.value.trim() || "Untitled Plate"}`,
     `Researcher: ${elements.researcherName.value.trim() || "Not specified"}`,
     `Plate Format: ${state.plateFormat}-well`,
-    `Working Volume: ${readPositiveNumber(elements.wellVolume, PLATE_CONFIG[state.plateFormat].defaultVolume)} uL`,
+    `Working Volume: ${readPositiveNumber(elements.wellVolume, PLATE_CONFIG[state.plateFormat].defaultVolume)} µL`,
     `Groups: ${state.groups.join(", ")}`,
     `Time Points: ${state.timepoints.join(", ")}`,
     `Biological Replicates: ${readPositiveInteger(elements.bioReps, defaults.bioReps)}`,
@@ -609,6 +666,12 @@ function bindEvents() {
   elements.exportPngBtn.addEventListener("click", exportPng);
   elements.copySummaryBtn.addEventListener("click", copySummary);
   elements.resetBtn.addEventListener("click", resetDefaults);
+
+  layoutPresetButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      applyLayoutPreset(button.dataset.layoutPreset);
+    });
+  });
 }
 
 renderTags();

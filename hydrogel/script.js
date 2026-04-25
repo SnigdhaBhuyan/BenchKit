@@ -46,6 +46,7 @@ const elements = {
 
 const exportButtons = document.querySelectorAll("[data-export-target]");
 const numericInputs = document.querySelectorAll("[data-number-input]");
+const presetButtons = document.querySelectorAll("[data-preset]");
 
 function readNumber(id) {
   const rawValue = parseFloat(elements[id].value);
@@ -57,7 +58,7 @@ function readNumber(id) {
 }
 
 function formatVolume(value) {
-  return `${value.toFixed(1)} uL`;
+  return `${value.toFixed(1)} µL`;
 }
 
 function dilutionFactor(target, stock) {
@@ -66,6 +67,32 @@ function dilutionFactor(target, stock) {
   }
 
   return `Dilution factor: ${(stock / target).toFixed(2)}x from stock.`;
+}
+
+function updateShorthand(targetGelma, targetFibrinogen) {
+  const gelmaLabel = Number.isInteger(targetGelma) ? targetGelma.toFixed(0) : targetGelma.toFixed(1).replace(/\.0$/, "");
+  const fibrinogenLabel = Number.isInteger(targetFibrinogen) ? targetFibrinogen.toFixed(0) : targetFibrinogen.toFixed(1).replace(/\.0$/, "");
+  document.getElementById("currentShorthand").textContent = `${gelmaLabel}G${fibrinogenLabel}F`;
+  document.getElementById("currentShorthandDetail").textContent = `${gelmaLabel}% GelMA and ${fibrinogenLabel} mg/mL Fibrinogen`;
+}
+
+function applyPreset(preset) {
+  const presets = {
+    "3g3f": { targetGelma: 3, targetFibrinogen: 3, targetThrombin: 6.25, stockGelma: 6, stockFibrinogen: 40, stockThrombin: 100 },
+    "5g3f": { targetGelma: 5, targetFibrinogen: 3, targetThrombin: 6.25, stockGelma: 10, stockFibrinogen: 40, stockThrombin: 100 },
+    "high-thrombin": { targetGelma: 3, targetFibrinogen: 3, targetThrombin: 12.5, stockGelma: 6, stockFibrinogen: 40, stockThrombin: 100 },
+  };
+
+  const nextPreset = presets[preset];
+  if (!nextPreset) {
+    return;
+  }
+
+  Object.entries(nextPreset).forEach(([key, value]) => {
+    elements[key].value = value;
+  });
+
+  calculate();
 }
 
 function showError(errorElement, tableElement, message) {
@@ -99,6 +126,7 @@ function calculate() {
   elements.gelmaDilutionNote.textContent = dilutionFactor(targetGelma, stockGelma);
   elements.fibrinogenDilutionNote.textContent = dilutionFactor(targetFibrinogen, stockFibrinogen);
   elements.thrombinDilutionNote.textContent = dilutionFactor(targetThrombin, stockThrombin);
+  updateShorthand(targetGelma, targetFibrinogen);
 
   const gelmaVolume = stockGelma > 0 ? (targetGelma / stockGelma) * syringeAFinal : 0;
   const fibrinogenVolume = stockFibrinogen > 0 ? (targetFibrinogen / stockFibrinogen) * syringeAFinal : 0;
@@ -223,6 +251,12 @@ elements.copySummary.addEventListener("click", copySummary);
 exportButtons.forEach((button) => {
   button.addEventListener("click", () => {
     exportCardAsPng(button.dataset.exportTarget);
+  });
+});
+
+presetButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    applyPreset(button.dataset.preset);
   });
 });
 
