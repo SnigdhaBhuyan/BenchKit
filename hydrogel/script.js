@@ -8,6 +8,10 @@ const defaults = {
   stockFibrinogen: 40,
   targetThrombin: 6.25,
   stockThrombin: 100,
+  gelmaWeight: 73.1,
+  lapWeight: 2.1,
+  lapTarget: 0.05,
+  filterRecovery: 60,
 };
 
 const elements = {
@@ -20,6 +24,10 @@ const elements = {
   stockFibrinogen: document.getElementById("stockFibrinogen"),
   targetThrombin: document.getElementById("targetThrombin"),
   stockThrombin: document.getElementById("stockThrombin"),
+  gelmaWeight: document.getElementById("gelmaWeight"),
+  lapWeight: document.getElementById("lapWeight"),
+  lapTarget: document.getElementById("lapTarget"),
+  filterRecovery: document.getElementById("filterRecovery"),
   gelmaDilutionNote: document.getElementById("gelmaDilutionNote"),
   fibrinogenDilutionNote: document.getElementById("fibrinogenDilutionNote"),
   thrombinDilutionNote: document.getElementById("thrombinDilutionNote"),
@@ -40,6 +48,16 @@ const elements = {
   statusB: document.getElementById("statusB"),
   statusBDetail: document.getElementById("statusBDetail"),
   totalStockPull: document.getElementById("totalStockPull"),
+  outGelmaDissolve: document.getElementById("outGelmaDissolve"),
+  outPremixAliquot: document.getElementById("outPremixAliquot"),
+  outScaledMedia: document.getElementById("outScaledMedia"),
+  outPrefilterMix: document.getElementById("outPrefilterMix"),
+  outTheoreticalBatches: document.getElementById("outTheoreticalBatches"),
+  outRecoverableBatches: document.getElementById("outRecoverableBatches"),
+  lapCheckTitle: document.getElementById("lapCheckTitle"),
+  lapCheckText: document.getElementById("lapCheckText"),
+  recoveryCheckTitle: document.getElementById("recoveryCheckTitle"),
+  recoveryCheckText: document.getElementById("recoveryCheckText"),
   resetDefaults: document.getElementById("resetDefaults"),
   copySummary: document.getElementById("copySummary"),
 };
@@ -59,6 +77,10 @@ function readNumber(id) {
 
 function formatVolume(value) {
   return `${value.toFixed(1)} µL`;
+}
+
+function formatBatchCount(value) {
+  return value.toFixed(2);
 }
 
 function dilutionFactor(target, stock) {
@@ -122,6 +144,10 @@ function calculate() {
   const stockFibrinogen = readNumber("stockFibrinogen");
   const targetThrombin = readNumber("targetThrombin");
   const stockThrombin = readNumber("stockThrombin");
+  const gelmaWeight = readNumber("gelmaWeight");
+  const lapWeight = readNumber("lapWeight");
+  const lapTarget = readNumber("lapTarget");
+  const filterRecovery = readNumber("filterRecovery");
 
   elements.gelmaDilutionNote.textContent = dilutionFactor(targetGelma, stockGelma);
   elements.fibrinogenDilutionNote.textContent = dilutionFactor(targetFibrinogen, stockFibrinogen);
@@ -145,6 +171,44 @@ function calculate() {
 
   const totalStock = gelmaVolume + fibrinogenVolume + thrombinVolume;
   elements.totalStockPull.textContent = formatVolume(totalStock);
+
+  const premixAliquot = Math.max(gelmaVolume + Math.max(mediaTopUp, 0), 0);
+  const gelmaDissolveVolume = stockGelma > 0 ? (gelmaWeight / (stockGelma * 10)) * 1000 : 0;
+  const theoreticalBatches = gelmaVolume > 0 ? gelmaDissolveVolume / gelmaVolume : 0;
+  const scaledMedia = theoreticalBatches * Math.max(mediaTopUp, 0);
+  const totalPrefilterMix = gelmaDissolveVolume + scaledMedia;
+  const recoveryFactor = Math.min(Math.max(filterRecovery, 0), 100) / 100;
+  const recoveredPremix = totalPrefilterMix * recoveryFactor;
+  const recoverableBatches = premixAliquot > 0 ? recoveredPremix / premixAliquot : 0;
+  const requiredLapMass = (lapTarget * 10) * (gelmaDissolveVolume / 1000);
+  const actualLapDissolvePercent = gelmaDissolveVolume > 0 ? (lapWeight / (gelmaDissolveVolume / 1000)) / 10 : 0;
+
+  elements.outGelmaDissolve.textContent = formatVolume(gelmaDissolveVolume);
+  elements.outPremixAliquot.textContent = formatVolume(premixAliquot);
+  elements.outScaledMedia.textContent = formatVolume(scaledMedia);
+  elements.outPrefilterMix.textContent = formatVolume(totalPrefilterMix);
+  elements.outTheoreticalBatches.textContent = formatBatchCount(theoreticalBatches);
+  elements.outRecoverableBatches.textContent = formatBatchCount(recoverableBatches);
+
+  if (requiredLapMass === 0) {
+    elements.lapCheckTitle.textContent = "LAP Check";
+    elements.lapCheckText.textContent = "Add GelMA and LAP weights to compare the weighed LAP against the target dissolve-step concentration.";
+  } else if (lapWeight >= requiredLapMass) {
+    elements.lapCheckTitle.textContent = "LAP Above Target";
+    elements.lapCheckText.textContent =
+      `Required LAP for the dissolve step is ${requiredLapMass.toFixed(2)} mg, while the weighed LAP is ${lapWeight.toFixed(2)} mg. ` +
+      `That gives an actual dissolve-step LAP concentration of ${actualLapDissolvePercent.toFixed(3)}% w/v.`;
+  } else {
+    elements.lapCheckTitle.textContent = "LAP Below Target";
+    elements.lapCheckText.textContent =
+      `Required LAP for the dissolve step is ${requiredLapMass.toFixed(2)} mg, but only ${lapWeight.toFixed(2)} mg is entered. ` +
+      `That gives an actual dissolve-step LAP concentration of ${actualLapDissolvePercent.toFixed(3)}% w/v.`;
+  }
+
+  elements.recoveryCheckTitle.textContent = "Recovery Estimate";
+  elements.recoveryCheckText.textContent =
+    `At ${filterRecovery.toFixed(0)}% recovery, the calculator estimates ${formatVolume(recoveredPremix)} of filtered premix, ` +
+    `which supports about ${formatBatchCount(recoverableBatches)} full batch equivalents.`;
 
   const syringeAInvalidStock =
     (targetGelma > 0 && stockGelma <= 0) || (targetFibrinogen > 0 && stockFibrinogen <= 0);

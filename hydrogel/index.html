@@ -217,6 +217,101 @@
         </article>
       </section>
 
+      <section class="workflow card">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Weight Workflow</p>
+            <h2>Premix Planner From Weighed GelMA and LAP</h2>
+          </div>
+          <p class="section-caption">Start from weighed material, then scale the GelMA-side premix before filtration.</p>
+        </div>
+
+        <div class="workflow-layout">
+          <div class="workflow-inputs">
+            <label class="field">
+              <span>GelMA Weight</span>
+              <div class="field__input">
+                <input id="gelmaWeight" data-number-input type="number" min="0" step="0.1" value="73.1">
+                <span>mg</span>
+              </div>
+            </label>
+
+            <label class="field">
+              <span>LAP Weight</span>
+              <div class="field__input">
+                <input id="lapWeight" data-number-input type="number" min="0" step="0.1" value="2.1">
+                <span>mg</span>
+              </div>
+            </label>
+
+            <label class="field">
+              <span>LAP Target in GelMA Dissolve Step</span>
+              <div class="field__input">
+                <input id="lapTarget" data-number-input type="number" min="0" step="0.01" value="0.05">
+                <span>% w/v</span>
+              </div>
+            </label>
+
+            <label class="field">
+              <span>Estimated Filter Recovery</span>
+              <div class="field__input">
+                <input id="filterRecovery" data-number-input type="number" min="0" max="100" step="1" value="60">
+                <span>%</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="workflow-metrics">
+            <article class="mini-metric">
+              <span class="mini-metric__label">GelMA Dissolve Volume</span>
+              <strong id="outGelmaDissolve">0.0 µL</strong>
+              <span class="mini-metric__detail">Volume needed to dissolve weighed GelMA at the stock GelMA concentration.</span>
+            </article>
+
+            <article class="mini-metric">
+              <span class="mini-metric__label">Premix Aliquot Per Batch</span>
+              <strong id="outPremixAliquot">0.0 µL</strong>
+              <span class="mini-metric__detail">Filtered GelMA-side premix to transfer before adding fibrinogen and cells.</span>
+            </article>
+
+            <article class="mini-metric">
+              <span class="mini-metric__label">Scaled Media To Add</span>
+              <strong id="outScaledMedia">0.0 µL</strong>
+              <span class="mini-metric__detail">Extra media added after the dissolve step to support the same final formulation.</span>
+            </article>
+
+            <article class="mini-metric">
+              <span class="mini-metric__label">Total Pre-Filter Premix</span>
+              <strong id="outPrefilterMix">0.0 µL</strong>
+              <span class="mini-metric__detail">Total GelMA-side mix before filter sterilization.</span>
+            </article>
+
+            <article class="mini-metric">
+              <span class="mini-metric__label">Theoretical Batches From GelMA</span>
+              <strong id="outTheoreticalBatches">0.00</strong>
+              <span class="mini-metric__detail">How many final batches the weighed GelMA can theoretically support before filter loss.</span>
+            </article>
+
+            <article class="mini-metric">
+              <span class="mini-metric__label">Estimated Recoverable Batches</span>
+              <strong id="outRecoverableBatches">0.00</strong>
+              <span class="mini-metric__detail">Estimated full premix-equivalent batches after applying the recovery percentage.</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="workflow-footer">
+          <div class="workflow-note">
+            <strong id="lapCheckTitle">LAP Check</strong>
+            <span id="lapCheckText">Calculator will compare weighed LAP against the target dissolve-step concentration.</span>
+          </div>
+          <div class="workflow-note">
+            <strong id="recoveryCheckTitle">Recovery Estimate</strong>
+            <span id="recoveryCheckText">Use this to judge whether the scaled pre-filter premix will leave enough volume after filtration.</span>
+          </div>
+        </div>
+      </section>
+
       <section class="results">
         <div class="section-head">
           <div>
