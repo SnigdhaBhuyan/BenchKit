@@ -1,175 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hydrogel Calculator — BenchKit</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dual-Syringe Hydrogel Batch Calculator</title>
+  <meta
+    name="description"
+    content="A browser-based calculator for dual-syringe hydrogel batch planning with real-time GelMA, fibrinogen, and thrombin mixing volumes."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero__copy">
+        <p class="eyebrow">Hydrogel Formulation Tool</p>
+        <h1>Dual-Syringe Hydrogel Batch Calculator</h1>
+        <p class="hero__lede">
+          Plan Syringe A and Syringe B in real time with clean dilution math, readable recipe tables,
+          and export-ready output for bench work.
+        </p>
+      </div>
 
-  <div class="app">
-
-    <header class="header">
-      <a class="back-link" href="../">
-        <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        BenchKit
-      </a>
-      <div class="header__title">
-        <div class="header__icon">
-          <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="hero__panel">
+        <div class="hero__metric">
+          <span class="hero__metric-label">Formula</span>
+          <strong>C1V1 = C2V2</strong>
         </div>
-        <div>
-          <h1>Dual-Syringe Hydrogel Calculator</h1>
-          <p>GelMA + Fibrinogen / Thrombin formulation</p>
+        <div class="hero__metric">
+          <span class="hero__metric-label">Updates</span>
+          <strong>Instant</strong>
+        </div>
+        <div class="hero__metric">
+          <span class="hero__metric-label">Output</span>
+          <strong>Recipe + PNG</strong>
         </div>
       </div>
     </header>
 
-    <main class="main">
-
-      <!-- ── Inputs ─────────────────────────────────────────── -->
-      <section class="card inputs-card">
-        <h2 class="card__title">Formulation Parameters</h2>
-
-        <div class="input-grid">
-
-          <div class="input-section">
-            <h3 class="input-section__label">Volumes</h3>
-            <div class="field">
-              <label for="fibVol">Fibrinogen mix final volume</label>
-              <div class="input-wrap"><input type="number" id="fibVol" value="500" min="0" step="10" /><span class="unit">µL</span></div>
-            </div>
-            <div class="field">
-              <label for="thrVol">Thrombin mix final volume</label>
-              <div class="input-wrap"><input type="number" id="thrVol" value="500" min="0" step="10" /><span class="unit">µL</span></div>
-            </div>
-            <div class="field">
-              <label for="cellVol">Cell suspension volume</label>
-              <div class="input-wrap"><input type="number" id="cellVol" value="50" min="0" step="5" /><span class="unit">µL</span></div>
-              <span class="field__note">Added to Syringe A</span>
-            </div>
+    <main class="layout">
+      <section class="controls card">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Inputs</p>
+            <h2>Batch Setup</h2>
           </div>
-
-          <div class="input-section">
-            <h3 class="input-section__label input-section__label--blue">GelMA</h3>
-            <div class="field">
-              <label for="gelmaTarget">Target concentration</label>
-              <div class="input-wrap"><input type="number" id="gelmaTarget" value="5" min="0" step="0.5" /><span class="unit">% w/v</span></div>
-            </div>
-            <div class="field">
-              <label for="gelmaStock">Stock concentration</label>
-              <div class="input-wrap"><input type="number" id="gelmaStock" value="10" min="0" step="0.5" /><span class="unit">% w/v</span></div>
-            </div>
+          <div class="toolbar">
+            <button class="ghost-button" id="copySummary" type="button">Copy Summary</button>
+            <button class="solid-button" id="resetDefaults" type="button">Reset Defaults</button>
           </div>
+        </div>
 
-          <div class="input-section">
-            <h3 class="input-section__label input-section__label--teal">Fibrinogen</h3>
-            <div class="field">
-              <label for="fibTarget">Target concentration</label>
-              <div class="input-wrap"><input type="number" id="fibTarget" value="3" min="0" step="0.5" /><span class="unit">mg/mL</span></div>
+        <div class="control-grid">
+          <section class="input-card">
+            <div class="input-card__head">
+              <span class="input-card__badge input-card__badge--plum">1</span>
+              <div>
+                <h3>Master Volumes</h3>
+                <p>Core batch sizes for both syringes.</p>
+              </div>
             </div>
-            <div class="field">
-              <label for="fibStock">Stock concentration</label>
-              <div class="input-wrap"><input type="number" id="fibStock" value="20" min="0" step="1" /><span class="unit">mg/mL</span></div>
-            </div>
-          </div>
 
-          <div class="input-section">
-            <h3 class="input-section__label input-section__label--amber">Thrombin</h3>
-            <div class="field">
-              <label for="thrTarget">Target concentration</label>
-              <div class="input-wrap"><input type="number" id="thrTarget" value="2" min="0" step="0.5" /><span class="unit">U/mL</span></div>
-            </div>
-            <div class="field">
-              <label for="thrStock">Stock concentration</label>
-              <div class="input-wrap"><input type="number" id="thrStock" value="100" min="0" step="5" /><span class="unit">U/mL</span></div>
-            </div>
-          </div>
+            <label class="field">
+              <span>Syringe A Final Volume</span>
+              <div class="field__input">
+                <input id="syringeAFinal" data-number-input type="number" min="0" step="50" value="1000">
+                <span>uL</span>
+              </div>
+            </label>
 
+            <label class="field">
+              <span>Syringe B Final Volume</span>
+              <div class="field__input">
+                <input id="syringeBFinal" data-number-input type="number" min="0" step="50" value="1000">
+                <span>uL</span>
+              </div>
+            </label>
+
+            <label class="field">
+              <span>Cell Suspension Volume</span>
+              <div class="field__input">
+                <input id="cellSuspension" data-number-input type="number" min="0" step="10" value="100">
+                <span>uL</span>
+              </div>
+            </label>
+          </section>
+
+          <section class="input-card">
+            <div class="input-card__head">
+              <span class="input-card__badge input-card__badge--blue">2</span>
+              <div>
+                <h3>GelMA Settings</h3>
+                <p>Used in Syringe A.</p>
+              </div>
+            </div>
+
+            <label class="field">
+              <span>Target GelMA Conc.</span>
+              <div class="field__input">
+                <input id="targetGelma" data-number-input type="number" min="0" step="0.1" value="3">
+                <span>% w/v</span>
+              </div>
+            </label>
+
+            <label class="field">
+              <span>GelMA Stock Conc.</span>
+              <div class="field__input">
+                <input id="stockGelma" data-number-input type="number" min="0" step="0.1" value="6">
+                <span>% w/v</span>
+              </div>
+            </label>
+
+            <p class="field-note" id="gelmaDilutionNote">Dilution factor: 2.00x from stock.</p>
+          </section>
+
+          <section class="input-card">
+            <div class="input-card__head">
+              <span class="input-card__badge input-card__badge--teal">3</span>
+              <div>
+                <h3>Fibrinogen Settings</h3>
+                <p>Used in Syringe A.</p>
+              </div>
+            </div>
+
+            <label class="field">
+              <span>Target Fibrinogen Conc.</span>
+              <div class="field__input">
+                <input id="targetFibrinogen" data-number-input type="number" min="0" step="0.1" value="3">
+                <span>mg/mL</span>
+              </div>
+            </label>
+
+            <label class="field">
+              <span>Fibrinogen Stock Conc.</span>
+              <div class="field__input">
+                <input id="stockFibrinogen" data-number-input type="number" min="0" step="1" value="40">
+                <span>mg/mL</span>
+              </div>
+            </label>
+
+            <p class="field-note" id="fibrinogenDilutionNote">Dilution factor: 13.33x from stock.</p>
+          </section>
+
+          <section class="input-card">
+            <div class="input-card__head">
+              <span class="input-card__badge input-card__badge--amber">4</span>
+              <div>
+                <h3>Thrombin Settings</h3>
+                <p>Used in Syringe B.</p>
+              </div>
+            </div>
+
+            <label class="field">
+              <span>Target Thrombin Conc.</span>
+              <div class="field__input">
+                <input id="targetThrombin" data-number-input type="number" min="0" step="0.1" value="6.25">
+                <span>U/mL</span>
+              </div>
+            </label>
+
+            <label class="field">
+              <span>Thrombin Stock Conc.</span>
+              <div class="field__input">
+                <input id="stockThrombin" data-number-input type="number" min="0" step="1" value="100">
+                <span>U/mL</span>
+              </div>
+            </label>
+
+            <p class="field-note" id="thrombinDilutionNote">Dilution factor: 16.00x from stock.</p>
+          </section>
         </div>
       </section>
 
-      <!-- ── Results ────────────────────────────────────────── -->
-      <div class="results-grid">
+      <section class="status-strip">
+        <article class="status-card">
+          <span class="status-card__label">Syringe A Status</span>
+          <strong id="statusA">Ready</strong>
+          <span id="statusADetail">Top-up available</span>
+        </article>
+        <article class="status-card">
+          <span class="status-card__label">Syringe B Status</span>
+          <strong id="statusB">Ready</strong>
+          <span id="statusBDetail">Top-up available</span>
+        </article>
+        <article class="status-card">
+          <span class="status-card__label">Total Stock Draw</span>
+          <strong id="totalStockPull">637.5 uL</strong>
+          <span>Across both syringes</span>
+        </article>
+      </section>
 
-        <section class="card syringe-card syringe-a">
-          <div class="syringe-card__header">
-            <div class="syringe-card__badge syringe-card__badge--a">A</div>
-            <div>
-              <h2>Syringe A</h2>
-              <p>Fibrinogen Mix</p>
-            </div>
+      <section class="results">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Outputs</p>
+            <h2>Real-Time Recipes</h2>
           </div>
-          <table class="result-table">
-            <tbody>
-              <tr>
-                <td>GelMA</td>
-                <td class="val" id="out-gelma">—</td>
-              </tr>
-              <tr>
-                <td>Fibrinogen stock</td>
-                <td class="val" id="out-fib">—</td>
-              </tr>
-              <tr>
-                <td>Cell suspension</td>
-                <td class="val" id="out-cell">—</td>
-              </tr>
-              <tr class="topup-row">
-                <td>Media top-up</td>
-                <td class="val" id="out-media">—</td>
-              </tr>
-              <tr class="total-row">
-                <td>Total volume</td>
-                <td class="val" id="out-totalA">—</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="formula-note">Formula used: C&#x2081;V&#x2081; = C&#x2082;V&#x2082;</div>
-        </section>
+          <p class="section-caption">All calculated volumes are formatted to 1 decimal place.</p>
+        </div>
 
-        <section class="card syringe-card syringe-b">
-          <div class="syringe-card__header">
-            <div class="syringe-card__badge syringe-card__badge--b">B</div>
-            <div>
-              <h2>Syringe B</h2>
-              <p>Thrombin Mix</p>
+        <div class="results-grid">
+          <article class="recipe-card card" id="recipeCardA">
+            <div class="recipe-card__head">
+              <div>
+                <p class="recipe-card__kicker">Syringe A</p>
+                <h3>Fibrinogen Mix Recipe</h3>
+              </div>
+              <button class="ghost-button" data-export-target="recipeCardA" type="button">Export PNG</button>
             </div>
+
+            <div class="error-banner" id="errorA" hidden aria-live="polite"></div>
+
+            <div id="tableWrapA">
+              <table class="recipe-table">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th>Volume to Add</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>GelMA Stock</td>
+                    <td id="outGelma">0.0 uL</td>
+                  </tr>
+                  <tr>
+                    <td>Fibrinogen Stock</td>
+                    <td id="outFibrinogen">0.0 uL</td>
+                  </tr>
+                  <tr>
+                    <td>Cell Suspension</td>
+                    <td id="outCell">0.0 uL</td>
+                  </tr>
+                  <tr class="recipe-table__topup">
+                    <td>Blank Media Top-Up</td>
+                    <td id="outMediaTopUp">0.0 uL</td>
+                  </tr>
+                  <tr class="recipe-table__total">
+                    <td>Total Mix Volume</td>
+                    <td id="outTotalA">0.0 uL</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="recipe-card card" id="recipeCardB">
+            <div class="recipe-card__head">
+              <div>
+                <p class="recipe-card__kicker recipe-card__kicker--amber">Syringe B</p>
+                <h3>Thrombin Mix Recipe</h3>
+              </div>
+              <button class="ghost-button" data-export-target="recipeCardB" type="button">Export PNG</button>
+            </div>
+
+            <div class="error-banner" id="errorB" hidden aria-live="polite"></div>
+
+            <div id="tableWrapB">
+              <table class="recipe-table recipe-table--amber">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th>Volume to Add</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Thrombin Stock</td>
+                    <td id="outThrombin">0.0 uL</td>
+                  </tr>
+                  <tr class="recipe-table__topup">
+                    <td>Buffer / CaCl2 Top-Up</td>
+                    <td id="outBufferTopUp">0.0 uL</td>
+                  </tr>
+                  <tr class="recipe-table__total">
+                    <td>Total Mix Volume</td>
+                    <td id="outTotalB">0.0 uL</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="formula card">
+        <div class="section-head section-head--compact">
+          <div>
+            <p class="section-kicker">Method</p>
+            <h2>Calculation Logic</h2>
           </div>
-          <table class="result-table">
-            <tbody>
-              <tr>
-                <td>Thrombin stock</td>
-                <td class="val" id="out-thr">—</td>
-              </tr>
-              <tr class="topup-row">
-                <td>CaCl&#x2082; / Buffer top-up</td>
-                <td class="val" id="out-buffer">—</td>
-              </tr>
-              <tr class="total-row">
-                <td>Total volume</td>
-                <td class="val" id="out-totalB">—</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="formula-note">Mix ratio A : B = 1 : 1</div>
-        </section>
+        </div>
 
-      </div>
-
-      <div id="errorBanner" class="error-banner" style="display:none"></div>
-
+        <div class="formula-grid">
+          <article>
+            <h3>Syringe A</h3>
+            <p>GelMA Stock Volume = (Target GelMA / GelMA Stock) x Syringe A Final Volume</p>
+            <p>Fibrinogen Stock Volume = (Target Fibrinogen / Fibrinogen Stock) x Syringe A Final Volume</p>
+            <p>Blank Media Top-Up = Syringe A Final Volume - GelMA Stock - Fibrinogen Stock - Cell Suspension</p>
+          </article>
+          <article>
+            <h3>Syringe B</h3>
+            <p>Thrombin Stock Volume = (Target Thrombin / Thrombin Stock) x Syringe B Final Volume</p>
+            <p>Buffer Top-Up = Syringe B Final Volume - Thrombin Stock</p>
+          </article>
+        </div>
+      </section>
     </main>
-
-    <footer class="footer">
-      <span>BenchKit &mdash; Snigdha Bhuyan &middot; Faculty of Dentistry, NUS</span>
-      <a href="https://github.com/SnigdhaBhuyan/WellPlatesExperiments" target="_blank" rel="noopener">GitHub</a>
-    </footer>
-
   </div>
 
-  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

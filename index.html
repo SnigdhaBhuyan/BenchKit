@@ -1,514 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BenchKit — PlateMaster Pro &amp; Hydrogel Calculator</title>
-  <meta name="description" content="Professional browser-based laboratory tools for well plate design, CFU calculations, dilution series, and dual-syringe hydrogel formulation. Built for biomedical and dental research. Open source, zero installation." />
-  <meta name="keywords" content="well plate, CFU calculator, hydrogel, plate design, plate map, biomedical, dentistry, tissue engineering, GelMA, fibrinogen, 3D bioprinting" />
-  <meta name="author" content="Snigdha Bhuyan, SRMIST" />
-  <meta property="og:title" content="BenchKit — Lab Tools for the Bench" />
-  <meta property="og:description" content="BenchKit — professional wet-lab tools for well plate design and hydrogel formulation. Free, open source, browser-based." />
-  <meta property="og:type" content="website" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BenchKit | PlateMaster and Hydrogel Calculator</title>
+  <meta
+    name="description"
+    content="BenchKit is a GitHub Pages-ready lab toolkit with a well plate designer and a dual-syringe hydrogel calculator."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-  <!-- ─── Navigation ─────────────────────────────────────── -->
-  <nav class="nav" id="nav">
-    <div class="nav__inner">
-      <a class="nav__logo" href="#">
-        <svg class="nav__logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="32" height="32" rx="8" fill="url(#ng)"/>
-          <circle cx="10" cy="10" r="3" fill="#fff" opacity=".9"/>
-          <circle cx="22" cy="10" r="3" fill="#fff" opacity=".9"/>
-          <circle cx="10" cy="22" r="3" fill="#fff" opacity=".9"/>
-          <circle cx="22" cy="22" r="3" fill="#06b6d4" opacity=".95"/>
-          <defs>
-            <linearGradient id="ng" x1="0" y1="0" x2="32" y2="32">
-              <stop offset="0%" stop-color="#2563eb"/>
-              <stop offset="100%" stop-color="#0891b2"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <span>BenchKit</span>
-      </a>
-      <ul class="nav__links" id="navLinks">
-        <li><a href="#tools">Tools</a></li>
-        <li><a href="#demo">Live Demo</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#about">About</a></li>
-        <li>
-          <a class="nav__github" href="https://github.com/SnigdhaBhuyan/WellPlatesExperiments" target="_blank" rel="noopener">
-            <i class="fab fa-github"></i> GitHub
-          </a>
-        </li>
-      </ul>
-      <button class="nav__burger" id="navBurger" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-
-  <!-- ─── Hero ────────────────────────────────────────────── -->
-  <section class="hero" id="hero">
-    <div class="hero__bg">
-      <div class="hero__grid-overlay"></div>
-      <div class="hero__orb hero__orb--1"></div>
-      <div class="hero__orb hero__orb--2"></div>
-      <div class="hero__orb hero__orb--3"></div>
-    </div>
-
-    <div class="hero__inner">
-      <!-- Left: copy -->
-      <div class="hero__copy">
-        <div class="hero__eyebrow">
-          <span class="pulse-dot"></span>
-          Open-source tools for dental &amp; biomedical research
+  <div class="site-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <a class="brand" href="./">BenchKit</a>
+        <div class="topbar__links">
+          <a href="#tools">Tools</a>
+          <a href="#workflow">Workflow</a>
+          <a href="https://github.com/SnigdhaBhuyan/WellPlatesExperiments" target="_blank" rel="noopener">GitHub</a>
         </div>
-        <h1 class="hero__title">
-          Design Plates.<br />
-          Calculate with
-          <span class="gradient-text">Precision.</span>
-        </h1>
-        <p class="hero__subtitle">
-          Professional browser-based tools for well&nbsp;plate design,
-          CFU&nbsp;calculations, and&nbsp;hydrogel formulation — built for
-          biomedical &amp; dental research.
-          No&nbsp;installation. No&nbsp;account. Just&nbsp;science.
-        </p>
-        <div class="hero__ctas">
-          <a class="btn btn-primary btn-lg" href="platemaster/">
-            <i class="fas fa-th"></i> PlateMaster Pro
-          </a>
-          <a class="btn btn-ghost btn-lg" href="hydrogel/">
-            <i class="fas fa-flask"></i> Hydrogel Calculator
-          </a>
-        </div>
-        <div class="hero__badges">
-          <span class="badge"><i class="fas fa-code-branch"></i> Open Source</span>
-          <span class="badge"><i class="fas fa-bolt"></i> Zero Install</span>
-          <span class="badge"><i class="fas fa-shield-alt"></i> No Data Collected</span>
-        </div>
-      </div>
+      </nav>
 
-      <!-- Right: animated plate -->
-      <div class="hero__visual">
-        <div class="plate-frame">
-          <div class="plate-frame__header">
-            <span class="plate-frame__dot"></span>
-            <span class="plate-frame__dot"></span>
-            <span class="plate-frame__dot"></span>
-            <span class="plate-frame__label">96-Well Plate — Live Preview</span>
-          </div>
-          <div class="plate-frame__body">
-            <svg id="heroSvg" viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" aria-label="Animated 96-well plate"></svg>
-          </div>
-          <div class="plate-frame__footer">
-            <span id="heroAnimLabel">Animating treatment groups…</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Stats bar -->
-    <div class="hero__stats">
-      <div class="stat-item">
-        <span class="stat-item__value">6+</span>
-        <span class="stat-item__label">Plate Formats</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
-        <span class="stat-item__value">384</span>
-        <span class="stat-item__label">Max Wells</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
-        <span class="stat-item__value">4</span>
-        <span class="stat-item__label">CFU Tools</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
-        <span class="stat-item__value">100%</span>
-        <span class="stat-item__label">Free &amp; Open Source</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── Tools ────────────────────────────────────────────── -->
-  <section class="tools" id="tools">
-    <div class="container">
-      <header class="section-header" data-animate>
-        <span class="section-tag">Applications</span>
-        <h2 class="section-title">Two Powerful Lab Tools</h2>
-        <p class="section-sub">Built for researchers, refined for simplicity</p>
-      </header>
-
-      <div class="tools__grid">
-        <!-- PlateMaster Pro -->
-        <article class="tool-card" data-animate>
-          <div class="tool-card__accent tool-card__accent--blue"></div>
-          <div class="tool-card__top">
-            <div class="tool-card__icon-wrap icon-blue">
-              <i class="fas fa-th"></i>
-            </div>
-            <div>
-              <span class="tool-card__tag">Core Tool</span>
-              <h3 class="tool-card__name">PlateMaster Pro</h3>
-            </div>
-          </div>
-          <p class="tool-card__desc">
-            Design multi-well plate layouts with color-coded treatment groups,
-            calculate CFU concentrations, plan dilution series, and export
-            publication-ready plate maps in multiple formats.
+      <div class="hero__content">
+        <div class="hero__copy" data-reveal>
+          <p class="eyebrow">Wet Lab Utilities</p>
+          <h1>BenchKit for Plate Planning and Hydrogel Batching</h1>
+          <p class="hero__lede">
+            A single static repo with polished browser tools for experimental layout design and
+            dual-syringe hydrogel formulation. No backend, no installation, and ready for GitHub Pages.
           </p>
-          <ul class="tool-card__list">
-            <li><i class="fas fa-check-circle"></i> 6 / 12 / 24 / 48 / 96 / 384-well formats</li>
-            <li><i class="fas fa-check-circle"></i> Single &amp; multi-strain CFU calculator</li>
-            <li><i class="fas fa-check-circle"></i> Serial dilution generator (1:10 → 1:10⁶)</li>
-            <li><i class="fas fa-check-circle"></i> Colony counter with dilution correction</li>
-            <li><i class="fas fa-check-circle"></i> Export PNG, CSV &amp; TXT protocol</li>
-            <li><i class="fas fa-check-circle"></i> Universal dilution (C₁V₁ = C₂V₂)</li>
-          </ul>
-          <a class="btn btn-primary tool-card__btn" href="platemaster/">
-            Launch PlateMaster Pro <i class="fas fa-arrow-right"></i>
-          </a>
-        </article>
-
-        <!-- Hydrogel Calculator -->
-        <article class="tool-card" data-animate>
-          <div class="tool-card__accent tool-card__accent--teal"></div>
-          <div class="tool-card__top">
-            <div class="tool-card__icon-wrap icon-teal">
-              <i class="fas fa-flask"></i>
-            </div>
-            <div>
-              <span class="tool-card__tag">Specialized</span>
-              <h3 class="tool-card__name">Hydrogel Calculator</h3>
-            </div>
+          <div class="hero__actions">
+            <a class="button button--primary" href="platemaster/">Open PlateMaster</a>
+            <a class="button button--secondary" href="hydrogel/">Open Hydrogel Calculator</a>
           </div>
-          <p class="tool-card__desc">
-            Precision formulation calculator for dual-syringe hydrogel systems.
-            Optimized for GelMA + Fibrinogen/Thrombin bioinks used in
-            tissue engineering and 3D bioprinting applications.
-          </p>
-          <ul class="tool-card__list">
-            <li><i class="fas fa-check-circle"></i> Dual-syringe (A + B) formulation</li>
-            <li><i class="fas fa-check-circle"></i> GelMA concentration targeting (% w/v)</li>
-            <li><i class="fas fa-check-circle"></i> Fibrinogen + Thrombin volumes</li>
-            <li><i class="fas fa-check-circle"></i> Cell suspension integration</li>
-            <li><i class="fas fa-check-circle"></i> Real-time recalculation on input</li>
-            <li><i class="fas fa-check-circle"></i> CaCl₂ / buffer top-up outputs</li>
-          </ul>
-          <a class="btn btn-teal tool-card__btn" href="hydrogel/">
-            Launch Hydrogel Calculator <i class="fas fa-arrow-right"></i>
-          </a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── Live Demo ─────────────────────────────────────────── -->
-  <section class="demo" id="demo">
-    <div class="container">
-      <header class="section-header" data-animate>
-        <span class="section-tag">Interactive Demo</span>
-        <h2 class="section-title">Design a Plate Right Here</h2>
-        <p class="section-sub">Configure your layout and export a pixel-perfect PNG</p>
-      </header>
-
-      <div class="demo__layout">
-        <!-- Controls panel -->
-        <div class="demo__panel">
-
-          <div class="ctrl-group">
-            <label class="ctrl-label">Plate Format</label>
-            <div class="format-grid" id="formatGrid">
-              <button class="fmt-btn" data-fmt="6">6-well</button>
-              <button class="fmt-btn" data-fmt="12">12-well</button>
-              <button class="fmt-btn" data-fmt="24">24-well</button>
-              <button class="fmt-btn active" data-fmt="96">96-well</button>
-              <button class="fmt-btn" data-fmt="384">384-well</button>
-            </div>
+          <div class="hero__badges">
+            <span>Static HTML/CSS/JS</span>
+            <span>PNG Export</span>
+            <span>GitHub Pages Ready</span>
           </div>
-
-          <div class="ctrl-group">
-            <label class="ctrl-label">Experiment Details</label>
-            <input class="ctrl-input" id="demoExpName" type="text" placeholder="Experiment name" value="My Experiment" />
-            <input class="ctrl-input" id="demoResName" type="text" placeholder="Researcher" value="S. Bhuyan · NUS" />
-          </div>
-
-          <div class="ctrl-group">
-            <label class="ctrl-label">Treatment Groups</label>
-            <div class="groups-list" id="groupsList"></div>
-            <button class="btn btn-outline btn-sm" id="addGroupBtn">
-              <i class="fas fa-plus"></i> Add Group
-            </button>
-          </div>
-
-          <div class="ctrl-group">
-            <label class="ctrl-label">Layout Options</label>
-            <label class="toggle-row">
-              <input type="checkbox" id="optControls" checked />
-              <span class="toggle-slider"></span>
-              <span>Include control wells</span>
-            </label>
-            <label class="toggle-row">
-              <input type="checkbox" id="optLabels" checked />
-              <span class="toggle-slider"></span>
-              <span>Show well labels</span>
-            </label>
-          </div>
-
-          <!-- Stats -->
-          <div class="demo__stats-row">
-            <div class="demo__mini-stat">
-              <span id="statUsed">—</span>
-              <small>wells used</small>
-            </div>
-            <div class="demo__mini-stat">
-              <span id="statUtil">—</span>
-              <small>utilization</small>
-            </div>
-            <div class="demo__mini-stat">
-              <span id="statTotal">—</span>
-              <small>total wells</small>
-            </div>
-          </div>
-
-          <div class="demo__actions">
-            <button class="btn btn-primary" id="exportBtn">
-              <i class="fas fa-download"></i> Export PNG
-            </button>
-            <button class="btn btn-outline" id="regenBtn">
-              <i class="fas fa-dice"></i> Randomize
-            </button>
-          </div>
-
         </div>
 
-        <!-- Canvas preview -->
-        <div class="demo__canvas-wrap">
-          <div class="canvas-container">
-            <canvas id="plateCanvas"></canvas>
+        <div class="hero__preview card" data-reveal>
+          <div class="preview__meta">
+            <span>Live Preview</span>
+            <strong>96-well pattern</strong>
           </div>
-          <p class="demo__hint">
-            <i class="fas fa-info-circle"></i>
-            Click <strong>Export PNG</strong> to download a high-resolution plate map
-          </p>
+          <div class="preview__plate" id="heroPlate" aria-hidden="true"></div>
+          <p class="preview__caption">Animated preview generated in vanilla JavaScript.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </header>
 
-  <!-- ─── Features ─────────────────────────────────────────── -->
-  <section class="features" id="features">
-    <div class="container">
-      <header class="section-header" data-animate>
-        <span class="section-tag">Why Use This</span>
-        <h2 class="section-title">Built for Real Lab Workflows</h2>
-        <p class="section-sub">Every feature designed around actual research needs</p>
-      </header>
-
-      <div class="features__grid">
-        <div class="feat-card" data-animate>
-          <div class="feat-card__icon"><i class="fas fa-bolt"></i></div>
-          <h3>Instant Calculations</h3>
-          <p>All math runs live in your browser. No server round-trip, no waiting.</p>
-        </div>
-        <div class="feat-card" data-animate>
-          <div class="feat-card__icon"><i class="fas fa-user-slash"></i></div>
-          <h3>No Sign-Up Required</h3>
-          <p>Open, use, done. No account, no subscription, no tracking whatsoever.</p>
-        </div>
-        <div class="feat-card" data-animate>
-          <div class="feat-card__icon"><i class="fas fa-file-image"></i></div>
-          <h3>Export Anywhere</h3>
-          <p>Download plate maps as high-res PNG, raw data as CSV, or full TXT protocol.</p>
-        </div>
-        <div class="feat-card" data-animate>
-          <div class="feat-card__icon"><i class="fas fa-atom"></i></div>
-          <h3>Science-Accurate Math</h3>
-          <p>Implements C₁V₁=C₂V₂, CFU/mL, serial dilution, and SI unit conversions correctly.</p>
-        </div>
-        <div class="feat-card" data-animate>
-          <div class="feat-card__icon"><i class="fas fa-mobile-alt"></i></div>
-          <h3>Works Everywhere</h3>
-          <p>Responsive design — use it on laptop, tablet, or phone with equal comfort.</p>
-        </div>
-        <div class="feat-card" data-animate>
-          <div class="feat-card__icon"><i class="fab fa-github"></i></div>
-          <h3>Fully Open Source</h3>
-          <p>All code is public. Fork it, modify it, self-host it, or contribute back.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── About ──────────────────────────────────────────────── -->
-  <section class="about" id="about">
-    <div class="container">
-      <div class="about__layout">
-
-        <!-- Left: visual journey timeline -->
-        <div class="about__timeline" data-animate>
-          <div class="timeline-item">
-            <div class="timeline-dot timeline-dot--amber"></div>
-            <div class="timeline-body">
-              <span class="timeline-year">B.Tech · Biotechnology</span>
-              <strong>VIT University</strong>
-              <p>Foundation in molecular biology, cell culture, and laboratory techniques.</p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot timeline-dot--blue"></div>
-            <div class="timeline-body">
-              <span class="timeline-year">MSc · Biomedical Sciences</span>
-              <strong>National University of Singapore</strong>
-              <p>Advanced training in biomedical research, tissue engineering, and experimental design.</p>
-            </div>
-          </div>
-          <div class="timeline-item timeline-item--current">
-            <div class="timeline-dot timeline-dot--teal"></div>
-            <div class="timeline-body">
-              <span class="timeline-year">PhD · Faculty of Dentistry <span class="badge-current">Current</span></span>
-              <strong>National University of Singapore</strong>
-              <p>Doctoral research in dental biomaterials, hydrogel systems, and regenerative dentistry.</p>
-            </div>
-          </div>
+    <main>
+      <section class="section" id="tools">
+        <div class="section__head" data-reveal>
+          <p class="eyebrow">Included Tools</p>
+          <h2>One BenchKit Repo, Two Focused Applications</h2>
         </div>
 
-        <!-- Right: about card -->
-        <div class="about__card" data-animate>
-          <div class="about__card-accent"></div>
-          <div class="about__card-inner">
-            <div class="about__avatar">
-              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
-                <circle cx="40" cy="40" r="40" fill="url(#avGrad)"/>
-                <circle cx="40" cy="32" r="14" fill="rgba(255,255,255,0.25)"/>
-                <ellipse cx="40" cy="70" rx="22" ry="16" fill="rgba(255,255,255,0.2)"/>
-                <defs>
-                  <linearGradient id="avGrad" x1="0" y1="0" x2="80" y2="80">
-                    <stop offset="0%" stop-color="#0891b2"/>
-                    <stop offset="50%" stop-color="#2563eb"/>
-                    <stop offset="100%" stop-color="#059669"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div class="about__avatar-ring"></div>
-            </div>
-
-            <h2 class="about__name">Snigdha Bhuyan</h2>
-            <p class="about__role">PhD Candidate · Faculty of Dentistry, NUS</p>
-
-            <blockquote class="about__quote">
-              "Every tool here was born from a real moment of frustration at the bench — pipette in one hand, phone calculator in the other. There had to be a better way."
-            </blockquote>
-
-            <p class="about__bio">
-              Wet lab researcher specialising in dental biomaterials, hydrogel scaffolds, and regenerative dentistry.
-              Days are spent at the biosafety cabinet preparing cell cultures, optimising GelMA/fibrin formulations,
-              and designing multi-well experiments — which is exactly why these tools exist.
-              Built from scratch so any researcher can open them mid-protocol, get their numbers, and get back to the bench.
+        <div class="tool-grid">
+          <article class="tool-card card" data-reveal>
+            <span class="tool-card__kicker">PlateMaster</span>
+            <h3>Well Plate Designer</h3>
+            <p>
+              Generate structured plate maps using treatment groups, time points, biological replicates,
+              and technical replicates. Export the full plate board as PNG, CSV, or protocol text.
             </p>
+            <ul>
+              <li>6, 12, 24, 48, 96, and 384-well support</li>
+              <li>Color-coded group assignment with control column reservation</li>
+              <li>Overflow reporting when requests exceed plate capacity</li>
+            </ul>
+            <a class="button button--primary button--small" href="platemaster/">Launch PlateMaster</a>
+          </article>
 
-            <div class="about__tags">
-              <span>Dental Biomaterials</span>
-              <span>Hydrogel Scaffolds</span>
-              <span>Cell Culture</span>
-              <span>GelMA / Fibrin</span>
-              <span>3D Bioprinting</span>
-              <span>Regenerative Dentistry</span>
-            </div>
+          <article class="tool-card card" data-reveal>
+            <span class="tool-card__kicker tool-card__kicker--teal">Hydrogel</span>
+            <h3>Dual-Syringe Batch Calculator</h3>
+            <p>
+              Calculate GelMA, fibrinogen, thrombin, and top-up volumes in real time for two-syringe
+              hydrogel preparation with clean error handling and exportable recipe panels.
+            </p>
+            <ul>
+              <li>Real-time C1V1 = C2V2 calculation flow</li>
+              <li>Separate Syringe A and Syringe B recipe tables</li>
+              <li>Copyable summary and PNG export for recipes</li>
+            </ul>
+            <a class="button button--teal button--small" href="hydrogel/">Launch Hydrogel Tool</a>
+          </article>
+        </div>
+      </section>
 
-            <a class="btn btn-green about__gh-btn" href="https://github.com/SnigdhaBhuyan" target="_blank" rel="noopener">
-              <i class="fab fa-github"></i> github.com/SnigdhaBhuyan
-            </a>
-          </div>
+      <section class="section section--alt" id="workflow">
+        <div class="section__head" data-reveal>
+          <p class="eyebrow">Workflow</p>
+          <h2>Built as a Clean GitHub Pages Package</h2>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── CTA Banner ────────────────────────────────────────── -->
-  <section class="cta-section">
-    <div class="cta-section__orb cta-section__orb--1"></div>
-    <div class="cta-section__orb cta-section__orb--2"></div>
-    <div class="container cta-section__inner">
-      <h2>Ready to start your experiment?</h2>
-      <p>Both tools are free, instant, and open source. No setup required.</p>
-      <div class="cta-section__btns">
-        <a class="btn btn-primary btn-lg" href="platemaster/">
-          <i class="fas fa-th"></i> PlateMaster Pro
-        </a>
-        <a class="btn btn-glass btn-lg" href="hydrogel/">
-          <i class="fas fa-flask"></i> Hydrogel Calculator
-        </a>
-        <a class="btn btn-ghost btn-lg" href="https://github.com/SnigdhaBhuyan/WellPlatesExperiments" target="_blank" rel="noopener">
-          <i class="fab fa-github"></i> View Source
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── Footer ───────────────────────────────────────────── -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__top">
-        <div class="footer__brand">
-          <div class="footer__logo">
-            <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
-              <circle cx="6" cy="6" r="2.5" fill="#3b82f6"/>
-              <circle cx="18" cy="6" r="2.5" fill="#3b82f6"/>
-              <circle cx="6" cy="18" r="2.5" fill="#06b6d4"/>
-              <circle cx="18" cy="18" r="2.5" fill="#06b6d4"/>
-              <circle cx="12" cy="12" r="2.5" fill="#8b5cf6"/>
-            </svg>
-            BenchKit
-          </div>
-          <p>Professional tools for biomedical &amp; dental research.</p>
-          <a class="footer__gh-link" href="https://github.com/SnigdhaBhuyan/WellPlatesExperiments" target="_blank" rel="noopener">
-            <i class="fab fa-github"></i> SnigdhaBhuyan / WellPlatesExperiments
-          </a>
+        <div class="workflow-grid">
+          <article class="workflow-card card" data-reveal>
+            <strong>1. Bench planning</strong>
+            <p>Use PlateMaster to assign groups, time points, and replicates to a plate format that actually fits.</p>
+          </article>
+          <article class="workflow-card card" data-reveal>
+            <strong>2. Batch preparation</strong>
+            <p>Use the Hydrogel Calculator to convert target concentrations into stock pulls and top-up volumes.</p>
+          </article>
+          <article class="workflow-card card" data-reveal>
+            <strong>3. Export and document</strong>
+            <p>Export PNG, CSV, or protocol files directly from the browser for handoff and record keeping.</p>
+          </article>
         </div>
+      </section>
+    </main>
 
-        <nav class="footer__nav">
-          <div class="footer__col">
-            <h4>Tools</h4>
-            <ul>
-              <li><a href="platemaster/">PlateMaster Pro</a></li>
-              <li><a href="hydrogel/">Hydrogel Calculator</a></li>
-            </ul>
-          </div>
-          <div class="footer__col">
-            <h4>PlateMaster</h4>
-            <ul>
-              <li><a href="platemaster/">Plate Designer</a></li>
-              <li><a href="platemaster/">CFU Calculators</a></li>
-              <li><a href="platemaster/">Dilution Tools</a></li>
-            </ul>
-          </div>
-          <div class="footer__col">
-            <h4>Resources</h4>
-            <ul>
-              <li><a href="https://github.com/SnigdhaBhuyan/WellPlatesExperiments" target="_blank" rel="noopener">Source Code</a></li>
-              <li><a href="https://github.com/SnigdhaBhuyan/WellPlatesExperiments/issues" target="_blank" rel="noopener">Report a Bug</a></li>
-            </ul>
-          </div>
-        </nav>
-      </div>
+    <footer class="footer">
+      <p>BenchKit by Snigdha Bhuyan</p>
+      <p id="footerYear">2026</p>
+    </footer>
+  </div>
 
-      <div class="footer__bottom">
-        <span>BenchKit · Made with <span style="color:#ef4444">♥</span> for the scientific community · Open source under MIT</span>
-        <span>Snigdha Bhuyan · PhD Candidate, Faculty of Dentistry, NUS &nbsp;·&nbsp; MSc Biomedical Sciences, NUS &nbsp;·&nbsp; B.Tech Biotechnology, VIT</span>
-      </div>
-    </div>
-  </footer>
-
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

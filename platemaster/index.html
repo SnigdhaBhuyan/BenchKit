@@ -1,372 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlateMaster Pro — BenchKit</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlateMaster Well Plate Designer</title>
+  <meta
+    name="description"
+    content="A GitHub Pages-ready well plate designer for generating multi-well layouts and exporting clean PNG, CSV, and protocol files."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="app" id="app">
-
-  <!-- ── Header ──────────────────────────────────────────────── -->
-  <header class="header">
-    <a class="back-link" href="../">
-      <i class="fas fa-chevron-left"></i> BenchKit
-    </a>
-    <div class="header__brand">
-      <div class="header__icon"><i class="fas fa-th"></i></div>
+  <div class="page-shell">
+    <header class="hero">
       <div>
-        <h1>PlateMaster Pro</h1>
-        <span id="layoutCount">0 layouts created</span>
-      </div>
-    </div>
-    <div class="header__spacer"></div>
-  </header>
-
-  <!-- ── Tab nav ─────────────────────────────────────────────── -->
-  <nav class="tabs">
-    <button class="tab-btn active" data-tab="design"><i class="fas fa-th-large"></i> Plate Design</button>
-    <button class="tab-btn" data-tab="cfu"><i class="fas fa-bacteria"></i> CFU Calculators</button>
-    <button class="tab-btn" data-tab="dilution"><i class="fas fa-flask"></i> Dilution Tools</button>
-  </nav>
-
-  <!-- ══════════════════════════════════════════════════════════
-       TAB 1: PLATE DESIGN
-       ══════════════════════════════════════════════════════════ -->
-  <section class="tab-panel active" id="tab-design">
-    <div class="design-layout">
-
-      <!-- Left: controls -->
-      <aside class="design-controls">
-
-        <div class="ctrl-section">
-          <h3 class="ctrl-section__title">Experiment Info</h3>
-          <div class="field">
-            <label for="expName">Experiment name</label>
-            <input class="input" type="text" id="expName" placeholder="e.g. Cell viability assay" />
-          </div>
-          <div class="field">
-            <label for="researcher">Researcher</label>
-            <input class="input" type="text" id="researcher" placeholder="Your name" />
-          </div>
-        </div>
-
-        <div class="ctrl-section">
-          <h3 class="ctrl-section__title">Plate Format</h3>
-          <div class="format-grid" id="formatGrid">
-            <button class="fmt-btn" data-fmt="6">6</button>
-            <button class="fmt-btn" data-fmt="12">12</button>
-            <button class="fmt-btn" data-fmt="24">24</button>
-            <button class="fmt-btn" data-fmt="48">48</button>
-            <button class="fmt-btn active" data-fmt="96">96</button>
-            <button class="fmt-btn" data-fmt="384">384</button>
-          </div>
-          <div class="field">
-            <label for="wellVol">Well working volume</label>
-            <div class="input-row">
-              <input class="input" type="number" id="wellVol" value="200" min="1" />
-              <span class="unit-tag">µL</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="ctrl-section">
-          <h3 class="ctrl-section__title">Treatment Groups</h3>
-          <div class="tag-list" id="groupTags"></div>
-          <div class="tag-input-row">
-            <input class="input" type="text" id="groupInput" placeholder="Add group name" />
-            <button class="btn-icon" id="addGroupBtn" title="Add group"><i class="fas fa-plus"></i></button>
-          </div>
-        </div>
-
-        <div class="ctrl-section">
-          <h3 class="ctrl-section__title">Time Points</h3>
-          <div class="tag-list" id="timepointTags"></div>
-          <div class="tag-input-row">
-            <input class="input" type="text" id="timepointInput" placeholder="e.g. 24h, 48h" />
-            <button class="btn-icon" id="addTimepointBtn" title="Add time point"><i class="fas fa-plus"></i></button>
-          </div>
-        </div>
-
-        <div class="ctrl-section">
-          <h3 class="ctrl-section__title">Replicates</h3>
-          <div class="replicate-row">
-            <div class="field">
-              <label for="bioReps">Biological</label>
-              <input class="input input--sm" type="number" id="bioReps" value="3" min="1" max="20" />
-            </div>
-            <div class="field">
-              <label for="techReps">Technical</label>
-              <input class="input input--sm" type="number" id="techReps" value="1" min="1" max="10" />
-            </div>
-          </div>
-        </div>
-
-        <div class="ctrl-section">
-          <h3 class="ctrl-section__title">Options</h3>
-          <label class="toggle-row">
-            <input type="checkbox" id="optControls" checked />
-            <span class="toggle"></span>
-            <span>Include controls</span>
-          </label>
-          <label class="toggle-row">
-            <input type="checkbox" id="optLabels" checked />
-            <span class="toggle"></span>
-            <span>Show well labels</span>
-          </label>
-        </div>
-
-        <button class="btn btn-primary btn-block" id="generateBtn">
-          <i class="fas fa-sync-alt"></i> Generate Layout
-        </button>
-
-      </aside>
-
-      <!-- Right: plate visualization -->
-      <div class="design-main">
-
-        <div class="plate-toolbar">
-          <div class="plate-toolbar__left">
-            <button class="tool-btn" id="zoomOutBtn" title="Zoom out"><i class="fas fa-search-minus"></i></button>
-            <span class="zoom-label" id="zoomLabel">100%</span>
-            <button class="tool-btn" id="zoomInBtn" title="Zoom in"><i class="fas fa-search-plus"></i></button>
-          </div>
-          <div class="plate-toolbar__right">
-            <button class="btn btn-sm btn-outline" id="exportPngBtn"><i class="fas fa-image"></i> PNG</button>
-            <button class="btn btn-sm btn-outline" id="exportCsvBtn"><i class="fas fa-table"></i> CSV</button>
-            <button class="btn btn-sm btn-outline" id="exportTxtBtn"><i class="fas fa-file-alt"></i> Protocol</button>
-          </div>
-        </div>
-
-        <div class="plate-wrap" id="plateWrap">
-          <div class="plate-container" id="plateContainer">
-            <div class="plate-grid" id="plateGrid"></div>
-          </div>
-        </div>
-
-        <div class="plate-stats" id="plateStats">
-          <div class="stat"><span class="stat__val" id="statNeed">—</span><span class="stat__lbl">wells needed</span></div>
-          <div class="stat"><span class="stat__val" id="statAvail">—</span><span class="stat__lbl">available</span></div>
-          <div class="stat"><span class="stat__val" id="statUtil">—</span><span class="stat__lbl">utilization</span></div>
-          <div class="stat"><span class="stat__val" id="statArea">—</span><span class="stat__lbl">surface area / well</span></div>
-        </div>
-
-        <div class="plate-legend" id="plateLegend"></div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════
-       TAB 2: CFU CALCULATORS
-       ══════════════════════════════════════════════════════════ -->
-  <section class="tab-panel" id="tab-cfu">
-    <div class="cfu-layout">
-
-      <!-- Sub-tab nav -->
-      <div class="sub-tabs">
-        <button class="sub-tab active" data-sub="single">Single Strain</button>
-        <button class="sub-tab" data-sub="multi">Multi-Strain</button>
-        <button class="sub-tab" data-sub="colony">Colony Counter</button>
-        <button class="sub-tab" data-sub="serial">Serial Dilution</button>
+        <p class="eyebrow">Plate Design Studio</p>
+        <h1>PlateMaster Well Plate Designer</h1>
+        <p class="hero__lede">
+          Build clean multi-well layouts for treatment groups, time points, and replicates.
+          Export a presentation-ready PNG, a CSV map, or a plain-text protocol in one click.
+        </p>
       </div>
 
-      <!-- Single Strain -->
-      <div class="sub-panel active card" id="sub-single">
-        <h2 class="card-title">Single Strain CFU Calculator</h2>
-        <p class="card-desc">Calculate the stock volume needed to achieve a target CFU concentration. Uses C&#x2081;V&#x2081; = C&#x2082;V&#x2082;.</p>
-        <div class="calc-grid">
-          <div class="field">
-            <label>Stock concentration</label>
-            <div class="input-row">
-              <input class="input" type="text" id="ss-stockConc" placeholder="e.g. 1e8" />
-              <select class="select" id="ss-stockUnit">
-                <option>CFU/mL</option><option>CFU/µL</option>
-              </select>
-            </div>
+      <div class="hero__stats">
+        <div class="hero__stat">
+          <span>Plate Formats</span>
+          <strong>6 to 384</strong>
+        </div>
+        <div class="hero__stat">
+          <span>Export</span>
+          <strong>PNG + CSV + TXT</strong>
+        </div>
+        <div class="hero__stat">
+          <span>Layout Logic</span>
+          <strong>Group x Time x Replicates</strong>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="controls card">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Setup</p>
+            <h2>Experiment Inputs</h2>
           </div>
-          <div class="field">
-            <label>Target concentration</label>
-            <div class="input-row">
-              <input class="input" type="text" id="ss-targetConc" placeholder="e.g. 1e6" />
-              <select class="select" id="ss-targetUnit">
-                <option>CFU/mL</option><option>CFU/µL</option><option>CFU/well</option><option>CFU/cm²</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label>Final volume needed</label>
-            <div class="input-row">
-              <input class="input" type="number" id="ss-finalVol" placeholder="e.g. 10" />
-              <select class="select" id="ss-volUnit">
-                <option>mL</option><option>µL</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label>Well surface area (for CFU/cm²)</label>
-            <div class="input-row">
-              <input class="input" type="number" id="ss-area" placeholder="0.32" />
-              <span class="unit-tag">cm²</span>
-            </div>
+          <div class="toolbar">
+            <button class="ghost-button" id="copySummaryBtn" type="button">Copy Summary</button>
+            <button class="solid-button" id="resetBtn" type="button">Reset Defaults</button>
           </div>
         </div>
-        <button class="btn btn-primary" id="ss-calcBtn"><i class="fas fa-calculator"></i> Calculate</button>
-        <div class="result-box" id="ss-result" style="display:none"></div>
-      </div>
 
-      <!-- Multi-Strain -->
-      <div class="sub-panel card" id="sub-multi">
-        <h2 class="card-title">Multi-Strain CFU Calculator</h2>
-        <p class="card-desc">Mix multiple bacterial strains at different stock concentrations to achieve a balanced final mixture.</p>
-        <div id="ms-strains"></div>
-        <button class="btn btn-outline btn-sm" id="ms-addBtn"><i class="fas fa-plus"></i> Add Strain</button>
-        <div class="field" style="margin-top:16px">
-          <label>Total final volume</label>
-          <div class="input-row" style="max-width:220px">
-            <input class="input" type="number" id="ms-totalVol" value="1" />
-            <select class="select" id="ms-volUnit"><option>mL</option><option>µL</option></select>
-          </div>
-        </div>
-        <button class="btn btn-primary" id="ms-calcBtn"><i class="fas fa-calculator"></i> Calculate Mix</button>
-        <div class="result-box" id="ms-result" style="display:none"></div>
-      </div>
-
-      <!-- Colony Counter -->
-      <div class="sub-panel card" id="sub-colony">
-        <h2 class="card-title">Colony Counter</h2>
-        <p class="card-desc">Convert plate colony counts to CFU/mL, correcting for dilution and volume plated.</p>
-        <div class="calc-grid calc-grid--3">
-          <div class="field">
-            <label>Colonies counted</label>
-            <input class="input" type="number" id="cc-colonies" placeholder="e.g. 145" min="0" />
-          </div>
-          <div class="field">
-            <label>Volume plated</label>
-            <div class="input-row">
-              <input class="input" type="number" id="cc-volume" placeholder="e.g. 100" />
-              <span class="unit-tag">µL</span>
-            </div>
-          </div>
-          <div class="field">
-            <label>Dilution factor</label>
-            <input class="input" type="text" id="cc-dilution" placeholder="e.g. 1e-6" />
-          </div>
-        </div>
-        <button class="btn btn-primary" id="cc-calcBtn"><i class="fas fa-calculator"></i> Calculate</button>
-        <div class="result-box" id="cc-result" style="display:none"></div>
-      </div>
-
-      <!-- Serial Dilution -->
-      <div class="sub-panel card" id="sub-serial">
-        <h2 class="card-title">Serial Dilution Generator</h2>
-        <p class="card-desc">Generate a complete dilution series from a starting stock concentration.</p>
-        <div class="calc-grid calc-grid--3">
-          <div class="field">
-            <label>Starting concentration</label>
-            <div class="input-row">
-              <input class="input" type="text" id="sd-start" placeholder="e.g. 1e8" />
-              <span class="unit-tag">CFU/mL</span>
-            </div>
-          </div>
-          <div class="field">
-            <label>Dilution factor</label>
-            <select class="select select--full" id="sd-factor">
-              <option value="10">1:10</option>
-              <option value="100">1:100</option>
-              <option value="2">1:2</option>
-              <option value="5">1:5</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Number of steps</label>
-            <input class="input" type="number" id="sd-steps" value="8" min="2" max="20" />
-          </div>
-        </div>
-        <button class="btn btn-primary" id="sd-calcBtn"><i class="fas fa-table"></i> Generate Series</button>
-        <div class="result-box" id="sd-result" style="display:none"></div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════
-       TAB 3: DILUTION TOOLS
-       ══════════════════════════════════════════════════════════ -->
-  <section class="tab-panel" id="tab-dilution">
-    <div class="dilution-layout">
-      <div class="card">
-        <h2 class="card-title">Universal Dilution Calculator</h2>
-        <p class="card-desc">Solve C&#x2081;V&#x2081; = C&#x2082;V&#x2082; for any unknown. Fill in three values and leave one blank.</p>
-
-        <div class="dilution-grid">
-          <div class="dilution-box dilution-box--stock">
-            <h3>Stock Solution</h3>
-            <div class="field">
-              <label>Concentration (C&#x2081;)</label>
-              <div class="input-row">
-                <input class="input" type="text" id="dil-c1" placeholder="leave blank to solve" />
-                <select class="select" id="dil-c1unit">
-                  <option>M</option><option>mM</option><option>µM</option><option>nM</option>
-                  <option>mg/mL</option><option>µg/mL</option><option>CFU/mL</option><option>%</option>
-                </select>
+        <div class="control-grid">
+          <section class="input-card">
+            <div class="input-card__head">
+              <span class="input-card__badge input-card__badge--plum">1</span>
+              <div>
+                <h3>Experiment Info</h3>
+                <p>Name, owner, and selected plate format.</p>
               </div>
             </div>
+
+            <label class="field">
+              <span>Experiment Name</span>
+              <input class="text-input" id="experimentName" type="text" value="Hydrogel Screening Plate">
+            </label>
+
+            <label class="field">
+              <span>Researcher</span>
+              <input class="text-input" id="researcherName" type="text" value="Snigdha Bhuyan">
+            </label>
+
             <div class="field">
-              <label>Volume (V&#x2081;)</label>
-              <div class="input-row">
-                <input class="input" type="text" id="dil-v1" placeholder="leave blank to solve" />
-                <select class="select" id="dil-v1unit">
-                  <option>mL</option><option>µL</option><option>L</option>
-                </select>
+              <span>Plate Format</span>
+              <div class="format-grid" id="formatGrid">
+                <button class="format-button" data-format="6" type="button">6</button>
+                <button class="format-button" data-format="12" type="button">12</button>
+                <button class="format-button" data-format="24" type="button">24</button>
+                <button class="format-button" data-format="48" type="button">48</button>
+                <button class="format-button is-active" data-format="96" type="button">96</button>
+                <button class="format-button" data-format="384" type="button">384</button>
               </div>
             </div>
+
+            <label class="field">
+              <span>Working Volume Per Well</span>
+              <div class="field__input">
+                <input id="wellVolume" type="number" min="1" step="10" value="200">
+                <span>uL</span>
+              </div>
+            </label>
+          </section>
+
+          <section class="input-card">
+            <div class="input-card__head">
+              <span class="input-card__badge input-card__badge--blue">2</span>
+              <div>
+                <h3>Treatment Groups</h3>
+                <p>Each group gets its own color in the plate.</p>
+              </div>
+            </div>
+
+            <div class="tag-box">
+              <div class="tag-list" id="groupTags"></div>
+              <div class="tag-input-row">
+                <input class="text-input" id="groupInput" type="text" placeholder="Add group name">
+                <button class="ghost-button ghost-button--compact" id="addGroupBtn" type="button">Add</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="input-card">
+            <div class="input-card__head">
+              <span class="input-card__badge input-card__badge--teal">3</span>
+              <div>
+                <h3>Time Points</h3>
+                <p>Each group is repeated across each time point.</p>
+              </div>
+            </div>
+
+            <div class="tag-box">
+              <div class="tag-list" id="timepointTags"></div>
+              <div class="tag-input-row">
+                <input class="text-input" id="timepointInput" type="text" placeholder="Add time point">
+                <button class="ghost-button ghost-button--compact" id="addTimepointBtn" type="button">Add</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="input-card">
+            <div class="input-card__head">
+              <span class="input-card__badge input-card__badge--amber">4</span>
+              <div>
+                <h3>Replicates & Options</h3>
+                <p>Choose replicate counts and display settings.</p>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <label class="field">
+                <span>Biological Replicates</span>
+                <div class="field__input">
+                  <input id="bioReps" type="number" min="1" max="24" step="1" value="3">
+                  <span>n</span>
+                </div>
+              </label>
+
+              <label class="field">
+                <span>Technical Replicates</span>
+                <div class="field__input">
+                  <input id="techReps" type="number" min="1" max="24" step="1" value="2">
+                  <span>n</span>
+                </div>
+              </label>
+            </div>
+
+            <label class="toggle-row">
+              <input id="includeControls" type="checkbox" checked>
+              <span class="toggle-indicator"></span>
+              <span>Reserve the last column for controls</span>
+            </label>
+
+            <label class="toggle-row">
+              <input id="showWellLabels" type="checkbox" checked>
+              <span class="toggle-indicator"></span>
+              <span>Show labels inside each well</span>
+            </label>
+          </section>
+        </div>
+      </section>
+
+      <section class="status-strip">
+        <article class="status-card">
+          <span class="status-card__label">Wells Required</span>
+          <strong id="requiredWells">0</strong>
+          <span id="requiredDetail">Includes experiment and control wells</span>
+        </article>
+        <article class="status-card">
+          <span class="status-card__label">Plate Capacity</span>
+          <strong id="availableWells">96</strong>
+          <span id="capacityDetail">Selected format capacity</span>
+        </article>
+        <article class="status-card">
+          <span class="status-card__label">Layout Status</span>
+          <strong id="layoutStatus">Ready</strong>
+          <span id="layoutStatusDetail">All requested combinations fit the plate</span>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Output</p>
+            <h2>Well Plate Layout</h2>
           </div>
-
-          <div class="dilution-equals">=</div>
-
-          <div class="dilution-box dilution-box--final">
-            <h3>Final Solution</h3>
-            <div class="field">
-              <label>Concentration (C&#x2082;)</label>
-              <div class="input-row">
-                <input class="input" type="text" id="dil-c2" placeholder="leave blank to solve" />
-                <select class="select" id="dil-c2unit">
-                  <option>M</option><option>mM</option><option>µM</option><option>nM</option>
-                  <option>mg/mL</option><option>µg/mL</option><option>CFU/mL</option><option>%</option>
-                </select>
-              </div>
-            </div>
-            <div class="field">
-              <label>Volume (V&#x2082;)</label>
-              <div class="input-row">
-                <input class="input" type="text" id="dil-v2" placeholder="leave blank to solve" />
-                <select class="select" id="dil-v2unit">
-                  <option>mL</option><option>µL</option><option>L</option>
-                </select>
-              </div>
-            </div>
+          <div class="toolbar">
+            <button class="ghost-button" id="exportCsvBtn" type="button">Export CSV</button>
+            <button class="ghost-button" id="exportTxtBtn" type="button">Export Protocol</button>
+            <button class="solid-button" id="exportPngBtn" type="button">Export PNG</button>
           </div>
         </div>
 
-        <button class="btn btn-primary" id="dil-calcBtn"><i class="fas fa-calculator"></i> Solve</button>
-        <button class="btn btn-outline" id="dil-clearBtn" style="margin-left:8px"><i class="fas fa-times"></i> Clear</button>
-        <div class="result-box" id="dil-result" style="display:none"></div>
-      </div>
-    </div>
-  </section>
+        <div class="warning-banner" id="warningBanner" hidden></div>
 
-</div>
+        <div class="export-board card" id="exportBoard">
+          <div class="export-board__header">
+            <div>
+              <p class="export-board__eyebrow">Plate Map</p>
+              <h3 id="boardTitle">Hydrogel Screening Plate</h3>
+            </div>
+            <div class="board-meta">
+              <span id="boardResearcher">Researcher: Snigdha Bhuyan</span>
+              <span id="boardFormat">Format: 96-well</span>
+              <span id="boardVolume">Working volume: 200 uL</span>
+            </div>
+          </div>
 
-<!-- Toast notification -->
-<div class="toast" id="toast"></div>
+          <div class="plate-wrap">
+            <div class="plate-shell" id="plateShell">
+              <div class="plate-grid" id="plateGrid"></div>
+            </div>
+          </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
-<script src="app.js"></script>
+          <div class="plate-summary">
+            <div class="plate-summary__item">
+              <span>Assigned Experiment Wells</span>
+              <strong id="assignedWells">0</strong>
+            </div>
+            <div class="plate-summary__item">
+              <span>Reserved Controls</span>
+              <strong id="controlWells">0</strong>
+            </div>
+            <div class="plate-summary__item">
+              <span>Utilization</span>
+              <strong id="utilization">0%</strong>
+            </div>
+            <div class="plate-summary__item">
+              <span>Surface Area / Well</span>
+              <strong id="surfaceArea">0 cm2</strong>
+            </div>
+          </div>
+
+          <div class="legend" id="legend"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+  <script src="app.js" defer></script>
 </body>
 </html>

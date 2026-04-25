@@ -1,56 +1,57 @@
 # BenchKit
 
-Professional browser-based lab tools for wet bench researchers. Built by a PhD candidate in dental biomaterials at the Faculty of Dentistry, National University of Singapore.
+BenchKit is a single GitHub Pages-ready static lab toolkit with two browser apps:
 
-**Live site → (https://snigdhabhuyan.github.io/BenchKit/)**
+- `platemaster/` for well plate design and export
+- `hydrogel/` for dual-syringe hydrogel batch calculation
 
----
+## Repo Structure
 
-## Tools
+```text
+/
+|-- index.html
+|-- css/
+|   `-- style.css
+|-- js/
+|   `-- main.js
+|-- platemaster/
+|   |-- index.html
+|   |-- style.css
+|   `-- app.js
+|-- hydrogel/
+|   |-- index.html
+|   |-- style.css
+|   `-- script.js
+`-- README.md
+```
 
-### PlateMaster Pro
-Design multi-well plate layouts, calculate CFU concentrations, plan dilution series, and export publication-ready plate maps.
+## Included Features
 
-- 6 / 12 / 24 / 48 / 96 / 384-well plate formats
-- Single and multi-strain CFU calculator
-- Serial dilution generator
-- Colony counter
-- Export as PNG, CSV, or TXT protocol
-- Universal dilution calculator (C₁V₁ = C₂V₂)
+### PlateMaster
+
+- 6, 12, 24, 48, 96, and 384-well formats
+- Group x time point x biological replicate x technical replicate layout logic
+- Optional reserved control column
+- PNG, CSV, and TXT export
+- Clear overflow warning when the requested layout exceeds plate capacity
 
 ### Hydrogel Calculator
-Precision formulation calculator for dual-syringe hydrogel systems used in tissue engineering and 3D bioprinting.
 
-- GelMA + Fibrinogen / Thrombin formulation
-- Dual-syringe (A + B) output volumes
-- Cell suspension integration
-- Real-time recalculation
+- Real-time GelMA, fibrinogen, and thrombin stock calculations
+- Separate Syringe A and Syringe B recipe tables
+- Top-up error handling when requested components exceed total volume
+- PNG export of recipe cards
+- Copy-summary and reset-to-defaults actions
 
----
+## External Dependencies
 
-## File Structure
+The repo is plain HTML, CSS, and vanilla JavaScript. The only runtime dependencies are:
 
-```
-├── index.html        Landing page
-├── css/
-│   └── style.css     Stylesheet
-├── js/
-│   └── main.js       Animated plate + canvas PNG export
-└── README.md
-```
+- Google Fonts
+- `html2canvas` from CDN for PNG export
 
-## Deploy on GitHub Pages
+## Deploy
 
-1. Push this folder as the root of a new GitHub repository
-2. Go to **Settings → Pages → Source: main branch / root**
-3. Site goes live at `https://yourusername.github.io/benchkit`
-
----
-
-## About
-
-Built by **Snigdha Bhuyan**  
-PhD Candidate · Faculty of Dentistry, NUS  
-MSc Biomedical Sciences, NUS · B.Tech Biotechnology, VIT
-
-Open source — MIT License
+1. Push this repo to GitHub.
+2. Open `Settings -> Pages`.
+3. Publish from the main branch root.
